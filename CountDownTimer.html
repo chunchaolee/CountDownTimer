@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Turn on/off light</title>
+</head>
+<body>
+  <script>
+
+    // img轉換
+    var state = true;
+    function toggleLight() {
+      var image = document.getElementById("image");
+      state = !state;
+      image.src = state ? "img/on.jpeg" : "img/off.jpeg"; 
+    }    
+
+    //timeLefe
+    function timeSet() {
+      var timeLeft = document.getElementById("input").value; 
+      if (timeLeft == "") {
+        alert("並未輸入任何數字！");
+      } else if (isNaN(timeLeft)) {
+        alert("請輸入數字！");
+      } else {
+        document.getElementById("timer").innerHTML = timeLeft; //set timeLeft
+        document.getElementById("input").value =""; //reset input
+
+        //倒數計時
+        function countDownTimer() {
+          // 避開timeLeft 0-1 = -1的顯示
+          if(timeLeft > 0) {
+            timeLeft -= 1;
+          };
+
+          //設定clearInterval()的條件及執行內容
+          if (timeLeft <= 0) {
+            //設定倒數計時後開關燈圖片的自動判別及切換
+            var image = document.getElementById("image");
+            state = !state;
+            image.src = state ? "img/on.jpeg" : "img/off.jpeg";
+            clearInterval(setting);
+          };
+          document.getElementById("timer").innerHTML = timeLeft;
+        };
+
+      };
+
+      //click SET button後觸發countDownTimer(), 直到timeLeft <= 0
+      var setting = setInterval(countDownTimer,1000); 
+    };
+
+  </script>
+  
+  <div>
+    
+    <!-- img -->
+    <img id="image" src="img/on.jpeg" width="300" height="250">
+    
+    <!-- ON/OFF button -->
+    <button class="button" onclick="toggleLight()">ON<br>-<br>OFF</button><br>
+
+    <!-- Time set -->
+    <p>輸入倒數計時時間(Sec.)：<input type="text" id="input"><button onclick="timeSet()">SET</button></p>
+
+    <!-- timer -->
+    <p>開/關倒數計時(Sec.)：<span class="span" id="timer">0</span></p>
+
+  </div>
+  
+</body>
+</html>
